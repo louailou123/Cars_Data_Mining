@@ -2,6 +2,8 @@
 class CleanData:
     def __init__(self,df):
         self.df=df
+    def getDataFrame(self):
+        return (self.df)
     def columnsNumber (self):
         return (self.df.shape[0])
     def linesNumber (self):
