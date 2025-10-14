@@ -1,34 +1,19 @@
-import pandas as pd
-import sys
-import re
-import io 
-import matplotlib.pyplot as plt
-import seaborn as sns
-sys.stdout= io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
 
-
-df = pd.read_csv("CarPrice_Assignment.csv")
-''' calcule de lignes et de colones'''
-print(f"nombre de lignes {df.shape[0]}")
-print(f"nombre de colones {df.shape[1]}")
-''' affiche les types de variables qualitatives et quantitatives'''
-print(df.info())
-''' affiche le nombre des valuers manquantes '''
-print(df.isnull().sum())
-''' visualiser la variable cible '''
-plt.figure(figsize=(6,4))
-sns.boxplot(x=df["price"])
-plt.title("Box Plot de la variable cible (price)")
-plt.show()
-
-# Tracé de distribution (histogramme + courbe KDE)
-plt.figure(figsize=(6,4))
-sns.histplot(df["price"], kde=True)
-plt.title("Distribution de la variable cible (price)")
-plt.show()
-df['CleanedCarName'] = df['CarName'].str.split(' ', expand=True).loc[:, 0] 
-
-df['CleanedCarName'].replace({
+class CleanData:
+    def __init__(self,df):
+        self.df=df
+    def columnsNumber (self):
+        return (self.df.shape[0])
+    def linesNumber (self):
+        return (self.df.shape[1])
+    def variablesInfo (self):
+        return (self.df.info())
+    def showMissingVariables (self) :
+        return (self.df.isnull().sum())
+    def splitCarNames (self):
+        self.df['CleanedCarName']=self.df['CarName'].str.split(' ', expand=True).loc[:, 0]
+    def ReplaceWrongCarNames (self):
+        self.df['CleanedCarName']=self.df['CleanedCarName'].replace({
     "maxda":"mazda",
     "vw":"bmw",
     "vokswagen":"volkswagen",
@@ -38,9 +23,5 @@ df['CleanedCarName'].replace({
     
     
 })
-print(df["CleanedCarName"].value_counts())
-
-plt.figure(figsize=(20,20))
-sns.histplot(df["CleanedCarName"], kde=True)
-plt.title("Distribution de la variable cible (price)")
-plt.show()
+    def showCleanedCarNames (self):
+        print (self.df['CleanedCarName'].value_counts())
