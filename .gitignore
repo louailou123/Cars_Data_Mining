@@ -1,2 +1,3 @@
 .env/
-CarPrice_Assignement.csv
+*.csv
+__pycache__/
